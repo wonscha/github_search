@@ -10,6 +10,17 @@ import {
   GET_REPOS,
 } from '../types'
 
+let clientId
+let clientSecret
+
+if (process.env.NODE_ENV !== 'production') {
+  clientId = process.env.REACT_APP_GITHUB_CLIENT_ID
+  clientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET
+} else {
+  clientId = process.env.REACT_APP_GITHUB_CLIENT_ID
+  clientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET
+}
+
 const GithubState = (props) => {
   const initialState = {
     users: [],
@@ -22,9 +33,6 @@ const GithubState = (props) => {
 
   // Search Users
   const searchUsers = async (text) => {
-    const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID
-    const clientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET
-
     setLoading()
     const res = await axios.get(
       `http://api.github.com/search/users?q=${text}&client_id=${clientId}&client_secret=${clientSecret}`
@@ -38,9 +46,6 @@ const GithubState = (props) => {
 
   // Get User
   const getUser = async (username) => {
-    const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID
-    const clientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET
-
     setLoading()
     const res = await axios.get(
       `http://api.github.com/users/${username}?client_id=${clientId}&client_secret=${clientSecret}`
@@ -53,9 +58,6 @@ const GithubState = (props) => {
 
   // Get Repos
   const getUserRepos = async (username) => {
-    const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID
-    const clientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET
-
     setLoading()
     const res = await axios.get(
       `http://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${clientId}&client_secret=${clientSecret}`
